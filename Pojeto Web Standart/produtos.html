@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cardápio da Santiago Padaria — Pães artesanais, doces e bebidas. Fermentação natural." />
+  <title>Produtos — Santiago Padaria Artesanal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="./index.html" class="navbar__logo">
+        <span class="navbar__logo-name">Santiago</span>
+        <span class="navbar__logo-sub">Padaria Artesanal</span>
+      </a>
+      <nav class="navbar__nav">
+        <a href="./index.html"    class="navbar__link">Início</a>
+        <a href="./produtos.html" class="navbar__link">Produtos</a>
+        <a href="./index.html#localizacoes" class="navbar__link">Lojas</a>
+        <a href="./feedback.html" class="navbar__link">Feedback</a>
+      </nav>
+      <div class="navbar__actions">
+        <a href="./login.html"    class="btn btn--ghost btn--sm">Entrar</a>
+        <a href="./cadastro.html" class="btn btn--gold  btn--sm">Criar Conta</a>
+        <button class="navbar__menu-btn" id="menuBtn"
+                aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="./index.html"    class="navbar__link">Início</a>
+    <a href="./produtos.html" class="navbar__link">Produtos</a>
+    <a href="./index.html#localizacoes" class="navbar__link">Lojas</a>
+    <a href="./feedback.html" class="navbar__link">Feedback</a>
+    <a href="./login.html"    class="btn btn--ghost">Entrar</a>
+    <a href="./cadastro.html" class="btn btn--gold">Criar Conta</a>
+  </div>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════
+         PAGE HERO — banner menor para sub-páginas
+    ═══════════════════════════════════════════ -->
+    <div class="page-hero">
+      <p class="eyebrow page-hero__eyebrow">Cardápio</p>
+      <h1 class="page-hero__title">Nossos <em>Produtos</em></h1>
+      <p class="page-hero__desc">
+        Feitos toda manhã com fermentação natural, ingredientes orgânicos e muito amor.
+      </p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         BARRA DE FILTROS
+         position: sticky → cola abaixo da navbar ao scrollar.
+         O JS em main.js escuta o input de busca e os botões
+         de categoria para mostrar/ocultar cards.
+    ═══════════════════════════════════════════ -->
+    <div class="filter-bar">
+      <div class="container filter-bar__inner">
+
+        <!-- Campo de busca -->
+        <div class="filter-bar__search">
+          <span class="filter-bar__search-icon">🔍</span>
+          <input
+            class="form-input"
+            id="searchInput"
+            type="search"
+            placeholder="Buscar produto..."
+            aria-label="Buscar produto"
+          />
+        </div>
+
+        <!-- Botões de categoria
+             data-category="todos|paes|doces|bebidas"
+             O JS usa este atributo para filtrar os cards correspondentes -->
+        <div class="filter-bar__cats" role="group" aria-label="Filtrar por categoria">
+          <button class="filter-btn active" data-category="todos">Todos</button>
+          <button class="filter-btn" data-category="paes">🌾 Pães</button>
+          <button class="filter-btn" data-category="doces">🥐 Doces</button>
+          <button class="filter-btn" data-category="bebidas">☕ Bebidas</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="container" style="padding-bottom: var(--sp-16)">
+
+      <!-- ═══════════════════════════════════════
+           CATEGORIA: PÃES
+      ═══════════════════════════════════════ -->
+      <div class="category-section" id="section-paes">
+        <div class="category-header">
+          <h2 class="category-header__title">Pães Artesanais</h2>
+          <span class="category-header__count">6 produtos</span>
+        </div>
+
+        <ul class="product-grid" role="list">
+
+          <li class="product-card reveal" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#2a1f14,#6b4c2e)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=600&q=80"
+                   alt="Sourdough clássico com crosta dourada" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--gold">Popular</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Sourdough Clássico</h3>
+              <p class="product-card__desc">Massa madre tradicional · Fermentação 72h · Crosta crocante · Miolo alveolado.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;32 <span>/ 800g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-1" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#1e1610,#503a24)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80"
+                   alt="Pão de centeio integral com grãos" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--gold">Novo</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Centeio Integral</h3>
+              <p class="product-card__desc">Grão orgânico certificado · Fermentação 48h · Baixo índice glicêmico.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;28 <span>/ 700g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-2" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#2d2010,#7a5535)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80"
+                   alt="Pão de sementes variadas" loading="lazy"/>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Sementes Mix</h3>
+              <p class="product-card__desc">Girassol · Linhaça · Gergelim · Abóbora · Rico em ômega-3.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;35 <span>/ 750g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-3" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d2a00,#9a7a20)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Pão de Milho</h3>
+              <p class="product-card__desc">Fubá orgânico · Sem glúten opcional · Textura macia e levemente adocicada.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;24 <span>/ 600g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d1a10,#8b4522)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Batata-Doce & Cúrcuma</h3>
+              <p class="product-card__desc">Anti-inflamatório natural · Cor dourada intensa · Sabor suave e úmido.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;26 <span>/ 500g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-1" data-category="paes">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#1a2010,#4a6030)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Focaccia Alecrim</h3>
+              <p class="product-card__desc">Azeite extra-virgem · Alecrim fresco · Flor de sal · Tomate cereja.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;22 <span>/ 400g</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+        </ul>
+      </div><!-- /category-section pães -->
+
+
+      <!-- ═══════════════════════════════════════
+           CATEGORIA: DOCES
+      ═══════════════════════════════════════ -->
+      <div class="category-section" id="section-doces">
+        <div class="category-header">
+          <h2 class="category-header__title">Doces & Confeitaria</h2>
+          <span class="category-header__count">4 produtos</span>
+        </div>
+
+        <ul class="product-grid" role="list">
+
+          <li class="product-card reveal" data-category="doces">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d2a1a,#c4884a)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80"
+                   alt="Croissant de manteiga dourado e folhado" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--gold">Destaque</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Croissant de Manteiga</h3>
+              <p class="product-card__desc">Massa folhada clássica · Manteiga francesa · 27 camadas · Feito diariamente.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;14 <span>/ un.</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-1" data-category="doces">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d200a,#a06020)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Canudinho de Leite</h3>
+              <p class="product-card__desc">Massa crocante · Recheio de doce de leite artesanal · Unitário.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;9 <span>/ un.</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-2" data-category="doces">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#4d3010,#c49030)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Bolo de Fubá</h3>
+              <p class="product-card__desc">Receita da avó · Fubá orgânico · Queijo minas · Erva-doce. Fatia generosa.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;12 <span>/ fatia</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-3" data-category="doces">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d1510,#8b3a20)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Torta de Maçã</h3>
+              <p class="product-card__desc">Massa podre artesanal · Maçã Fuji orgânica · Canela do Ceilão · Sem conservantes.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;18 <span>/ fatia</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+        </ul>
+      </div><!-- /category-section doces -->
+
+
+      <!-- ═══════════════════════════════════════
+           CATEGORIA: BEBIDAS
+      ═══════════════════════════════════════ -->
+      <div class="category-section" id="section-bebidas">
+        <div class="category-header">
+          <h2 class="category-header__title">Bebidas</h2>
+          <span class="category-header__count">4 produtos</span>
+        </div>
+
+        <ul class="product-grid" role="list">
+
+          <li class="product-card reveal" data-category="bebidas">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#0d0a08,#3d2010)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80"
+                   alt="Café especial em xícara com crema espessa" loading="lazy"/>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Café de Origem</h3>
+              <p class="product-card__desc">Grão especial de fazendas parceiras · Torra média · Filtrado na hora.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;8 <span>/ 200ml</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-1" data-category="bebidas">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#1a1208,#5a3a18)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Café com Leite</h3>
+              <p class="product-card__desc">Espresso duplo · Leite integral vaporizado · Leite oat opcional.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;10 <span>/ 300ml</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-2" data-category="bebidas">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#1a2a08,#4a8020)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Suco de Laranja</h3>
+              <p class="product-card__desc">Natural · Espremido na hora · Sem açúcar adicionado · Lima da pérsia.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;12 <span>/ 300ml</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-3" data-category="bebidas">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#0a1a20,#205060)">
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Kombucha Artesanal</h3>
+              <p class="product-card__desc">Fermentação própria · Gengibre & limão · Probióticos naturais · Efervescente.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;15 <span>/ 350ml</span></div>
+              <button class="btn btn--gold btn--sm">+ Pedir</button>
+            </div>
+          </li>
+
+        </ul>
+      </div><!-- /category-section bebidas -->
+
+    </div><!-- /container -->
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand-name">Santiago</div>
+          <div class="footer__brand-sub">Padaria Artesanal</div>
+          <p class="footer__brand-desc">
+            Pão de fermentação natural, ingredientes orgânicos e respeito pelo tempo.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Navegação</h4>
+          <ul class="footer__links">
+            <li><a href="./index.html"    class="footer__link">Início</a></li>
+            <li><a href="./produtos.html" class="footer__link">Produtos</a></li>
+            <li><a href="./feedback.html" class="footer__link">Feedback</a></li>
+            <li><a href="./login.html"    class="footer__link">Minha Conta</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Lojas</h4>
+          <ul class="footer__links">
+            <li><a href="./index.html#localizacoes" class="footer__link">Perdizes</a></li>
+            <li><a href="./index.html#localizacoes" class="footer__link">Ibirapuera</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Contato</h4>
+          <ul class="footer__links">
+            <li><a href="https://wa.me/5511999999999" class="footer__link"
+                   target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="mailto:contato@santiago.com.br" class="footer__link">E-mail</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 Santiago Padaria Artesanal.</span>
+        <span>São Paulo, SP — Brasil</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

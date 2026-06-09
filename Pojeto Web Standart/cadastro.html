@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crie sua conta na Santiago Padaria Artesanal e faça pedidos online." />
+  <title>Criar Conta — Santiago Padaria Artesanal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="./index.html" class="navbar__logo">
+        <span class="navbar__logo-name">Santiago</span>
+        <span class="navbar__logo-sub">Padaria Artesanal</span>
+      </a>
+      <nav class="navbar__nav">
+        <a href="./index.html"    class="navbar__link">Início</a>
+        <a href="./produtos.html" class="navbar__link">Produtos</a>
+        <a href="./feedback.html" class="navbar__link">Feedback</a>
+      </nav>
+      <div class="navbar__actions">
+        <a href="./login.html" class="btn btn--ghost btn--sm">Já tenho conta</a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════
+       SPLIT PAGE — Cadastro
+  ═══════════════════════════════════════════ -->
+  <div class="split-page">
+
+    <!-- PAINEL ESQUERDO -->
+    <div class="split-left">
+      <div class="split-left__emblem" aria-hidden="true">
+        <span style="font-size:0.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--c-gold)">Fermentação</span>
+        <span style="font-family:var(--f-display);font-size:1.1rem;font-weight:700;color:var(--c-text)">Santiago</span>
+        <span style="font-size:0.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--c-text-muted)">Natural</span>
+      </div>
+
+      <div class="split-left__name">Faça parte</div>
+      <div class="split-left__sub">da família Santiago</div>
+
+      <p style="margin-top:var(--sp-4);font-size:var(--t-sm);color:var(--c-text-muted);max-width:280px;text-align:center;line-height:1.7">
+        Crie sua conta e aproveite pedidos online, histórico de compras e ofertas exclusivas para membros.
+      </p>
+
+      <div class="split-left__benefits">
+        <div class="benefit-item">
+          <div class="benefit-item__icon">🥖</div>
+          <div>
+            <div class="benefit-item__title">Pedidos Online</div>
+            <div class="benefit-item__desc">Retire na loja ou receba em casa</div>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-item__icon">🔔</div>
+          <div>
+            <div class="benefit-item__title">Novidades em Primeira Mão</div>
+            <div class="benefit-item__desc">Saiba quando sai o pão do forno</div>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-item__icon">💳</div>
+          <div>
+            <div class="benefit-item__title">Checkout Rápido</div>
+            <div class="benefit-item__desc">Seus dados salvos com segurança</div>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-item__icon">⭐</div>
+          <div>
+            <div class="benefit-item__title">Programa de Pontos</div>
+            <div class="benefit-item__desc">Ganhe a cada compra (em breve)</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /split-left -->
+
+
+    <!-- PAINEL DIREITO: Formulário de cadastro -->
+    <div class="split-right">
+      <div class="split-form">
+
+        <p class="split-form__eyebrow">É rápido e gratuito</p>
+        <h1 class="split-form__title">Criar conta</h1>
+
+        <!--
+          CONCEITO — Formulários multi-campo & UX
+          Em formulários longos, agrupar campos relacionados reduz
+          a carga cognitiva. Campos lado a lado (nome + sobrenome)
+          economizam espaço vertical sem prejudicar a leitura.
+          
+          autocomplete="..." ajuda o browser a sugerir valores,
+          agilizando o preenchimento (especialmente em mobile).
+        -->
+        <form id="registerForm" data-validate class="form-stack"
+              action="javascript:void(0)" novalidate>
+
+          <!-- Nome + Sobrenome lado a lado (form-row usa CSS Grid 1fr 1fr) -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nome">Nome</label>
+              <input
+                class="form-input"
+                id="nome"
+                type="text"
+                name="nome"
+                placeholder="João"
+                autocomplete="given-name"
+                data-validate="required"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sobrenome">Sobrenome</label>
+              <input
+                class="form-input"
+                id="sobrenome"
+                type="text"
+                name="sobrenome"
+                placeholder="Silva"
+                autocomplete="family-name"
+                data-validate="required"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="emailCad">E-mail</label>
+            <input
+              class="form-input"
+              id="emailCad"
+              type="email"
+              name="email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              data-validate="required|email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="telefone">Telefone / WhatsApp</label>
+            <input
+              class="form-input"
+              id="telefone"
+              type="tel"
+              name="telefone"
+              placeholder="(11) 99999-9999"
+              autocomplete="tel"
+              data-validate="required|phone"
+            />
+          </div>
+
+          <!-- Senha + Confirmação lado a lado -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="senhaCad">Senha</label>
+              <input
+                class="form-input"
+                id="senhaCad"
+                type="password"
+                name="senha"
+                placeholder="Mín. 8 caracteres"
+                autocomplete="new-password"
+                data-validate="required|minLength:8"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="confirmSenha">Confirmar Senha</label>
+              <input
+                class="form-input"
+                id="confirmSenha"
+                type="password"
+                name="confirmSenha"
+                placeholder="Repita a senha"
+                autocomplete="new-password"
+                data-validate="required|passwordMatch:senhaCad"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cep">CEP (para entrega)</label>
+            <input
+              class="form-input"
+              id="cep"
+              type="text"
+              name="cep"
+              placeholder="00000-000"
+              autocomplete="postal-code"
+              maxlength="9"
+              data-validate="required|cep"
+            />
+          </div>
+
+          <!-- Termos de uso — checkbox obrigatório -->
+          <label class="form-check">
+            <input
+              class="form-check__input"
+              id="termos"
+              type="checkbox"
+              name="termos"
+              data-validate="required"
+            />
+            <span class="form-check__label">
+              Concordo com os
+              <a href="#" style="color:var(--c-gold-dark);text-decoration:underline">Termos de Uso</a>
+              e a
+              <a href="#" style="color:var(--c-gold-dark);text-decoration:underline">Política de Privacidade</a>
+            </span>
+          </label>
+
+          <!-- Newsletter — opcional -->
+          <label class="form-check">
+            <input class="form-check__input" type="checkbox" name="newsletter" />
+            <span class="form-check__label">
+              Quero receber novidades, lançamentos e promoções por e-mail
+            </span>
+          </label>
+
+          <button type="submit" class="btn btn--gold"
+                  style="width:100%;height:48px;font-size:var(--t-base)">
+            Criar minha conta
+          </button>
+
+          <div class="form-divider">ou</div>
+
+          <button type="button" class="btn btn--google"
+                  style="width:100%;height:48px;gap:var(--sp-2)">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+              <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+              <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+              <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+            </svg>
+            Cadastrar com Google
+          </button>
+
+        </form>
+
+        <p class="split-form__footer">
+          Já tem conta?
+          <a href="./login.html">Fazer login</a>
+        </p>
+
+      </div><!-- /split-form -->
+    </div><!-- /split-right -->
+
+  </div><!-- /split-page -->
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

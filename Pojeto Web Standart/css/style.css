@@ -1,0 +1,2034 @@
+/* ================================================================
+   SANTIAGO PADARIA ARTESANAL — style.css
+   Folha de estilo global: todas as páginas compartilham este arquivo.
+
+   ÍNDICE:
+   01. Import de Fontes
+   02. Design Tokens (CSS Custom Properties)
+   03. Reset & Normalização
+   04. Tipografia Base
+   05. Utilitários & Layout
+   06. Componente: Navbar
+   07. Componente: Hero (página inicial, tela cheia)
+   08. Componente: Page-Hero (banner menor em sub-páginas)
+   09. Componente: Botões
+   10. Componente: Cards de Produto
+   11. Componente: Formulários (inputs, labels, selects)
+   12. Seção: Story Strip (faixa da história)
+   13. Seção: Produtos em Destaque (home)
+   14. Seção: Localizações (home)
+   15. Seção: Filtros (página de produtos)
+   16. Seção: Grid de Produtos (página de produtos)
+   17. Layout Split (Login & Cadastro)
+   18. Seção: Feedback — Stars & Reviews
+   19. Footer
+   20. Animações & Keyframes
+   21. Media Queries (Mobile-first)
+================================================================ */
+
+
+/* ================================================================
+   01. IMPORT DE FONTES
+   
+   CONCEITO — Google Fonts & Performance
+   Fontes são carregadas via CDN do Google Fonts. O parâmetro
+   `display=swap` aplica CSS font-display: swap, que instrui o
+   browser a exibir uma fonte fallback enquanto a web font carrega,
+   prevenindo o FOIT (Flash of Invisible Text) — um problema clássico
+   de UX em sites que carregam fontes pesadas.
+   
+   FONTES ESCOLHIDAS:
+   • Playfair Display — Serif clássico com alta elegância tipográfica.
+     Alto contraste entre hastes finas e espessas (chamado de "stress").
+     Ideal para headings em contextos de luxo, gastronomia e editorial.
+   • DM Sans — Sans-serif humanista criada pela Colophon Foundry.
+     Excelente legibilidade em tamanhos pequenos. Neutralidade equilibrada
+     que não compete com o Playfair Display nos títulos.
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+
+/* ================================================================
+   02. DESIGN TOKENS — CSS CUSTOM PROPERTIES
+   
+   CONCEITO — Tokens de Design & :root
+   CSS Custom Properties (variáveis CSS nativas, introduzidas no CSS3)
+   funcionam como "Design Tokens" — a fonte única de verdade para
+   todos os valores visuais do sistema.
+   
+   Por que :root?
+   O seletor :root corresponde ao elemento <html>, o ancestral de todo
+   o DOM. Variáveis definidas aqui ficam disponíveis para TODOS os
+   elementos via herança (cascade). É o escopo global do CSS.
+   
+   Vantagens sobre Sass/Less:
+   1. Nativas — sem compilação, sem dependências de build
+   2. Reativas — podem ser alteradas em runtime (ex.: dark/light mode)
+   3. Acessíveis via JS: getComputedStyle(el).getPropertyValue('--c-gold')
+   4. Participam da Cascade — podem ser sobrescritas em escopos menores
+================================================================ */
+:root {
+  /* --- PALETA CROMÁTICA ---
+     Teoria: cores análogas quentes (marrons, âmbares, ouros).
+     O background escuro quente (#0c0a08) evoca a escuridão de um
+     forno, enquanto o dourado (#c8a96e) remete à cor do pão assado.
+     
+     Contraste textual:
+     --c-text sobre --c-bg = razão ~14:1 (WCAG AAA exige 7:1) ✓
+  */
+  --c-bg:           #0c0a08;   /* Fundo principal — preto quentíssimo  */
+  --c-surface:      #171310;   /* Superfície de cards e modais          */
+  --c-surface-2:    #201c17;   /* Superfície secundária (hover states)  */
+  --c-border:       #3a3028;   /* Bordas visíveis                       */
+  --c-border-sub:   #221d18;   /* Bordas sutis / separadores            */
+
+  --c-gold:         #c8a96e;   /* Dourado — acento primário da marca    */
+  --c-gold-light:   #e0c898;   /* Dourado claro (hover)                 */
+  --c-gold-dark:    #9a7a42;   /* Dourado escuro (pressed / active)     */
+  --c-gold-faint:   rgba(200, 169, 110, 0.08); /* Fundo dourado sutil  */
+
+  --c-text:         #f2ebe0;   /* Texto primário — creme quente         */
+  --c-text-muted:   #a8967f;   /* Texto secundário — creme médio        */
+  --c-text-faint:   #6b5c48;   /* Placeholder / rótulos discretos       */
+
+  --c-white:        #ffffff;
+  --c-error:        #d4614b;   /* Vermelho quente — mensagens de erro   */
+  --c-success:      #6aad7e;   /* Verde — mensagens de sucesso          */
+
+  /* --- TIPOGRAFIA ---
+     ESCALA MODULAR — Major Third (razão 1.250)
+     Partindo de 1rem (16px), cada nível multiplica por 1.25.
+     Isso garante harmonia proporcional entre os tamanhos de texto.
+     
+     n = -2  → 0.640rem  ≈ 10px   (--t-xs)
+     n = -1  → 0.800rem  ≈ 13px   (--t-sm)
+     n =  0  → 1.000rem  = 16px   (--t-base, referência)
+     n =  1  → 1.250rem  = 20px   (--t-md)
+     n =  2  → 1.563rem  ≈ 25px   (--t-lg)
+     n =  3  → 1.953rem  ≈ 31px   (--t-xl)
+     n =  4  → 2.441rem  ≈ 39px   (--t-2xl)
+     n =  5  → 3.052rem  ≈ 49px   (--t-3xl)
+     n =  6  → 3.815rem  ≈ 61px   (--t-4xl)
+  */
+  --f-display: 'Playfair Display', Georgia, serif;
+  --f-body:    'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --t-xs:   0.64rem;
+  --t-sm:   0.8rem;
+  --t-base: 1rem;
+  --t-md:   1.25rem;
+  --t-lg:   1.563rem;
+  --t-xl:   1.953rem;
+  --t-2xl:  2.441rem;
+  --t-3xl:  3.052rem;
+  --t-4xl:  4rem;
+  --t-hero: 5.5rem;
+
+  /* --- ESPAÇAMENTO — 8pt Grid System ---
+     Múltiplos de 8px criam alinhamento visual consistente entre
+     todos os elementos. Adotado pelo Material Design, iOS HIG
+     e pela maioria dos design systems modernos.
+     
+     Vantagem: qualquer combinação de espaçamentos resulta em
+     alinhamento de pixel perfeito.
+  */
+  --sp-1:  0.5rem;    /* 8px  */
+  --sp-2:  1rem;      /* 16px */
+  --sp-3:  1.5rem;    /* 24px */
+  --sp-4:  2rem;      /* 32px */
+  --sp-6:  3rem;      /* 48px */
+  --sp-8:  4rem;      /* 64px */
+  --sp-12: 6rem;      /* 96px */
+  --sp-16: 8rem;      /* 128px */
+
+  /* --- BORDAS, SOMBRAS, TRANSIÇÕES --- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   14px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.5);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.65);
+  --shadow-lg:   0 16px 48px rgba(0,0,0,0.75);
+  --shadow-gold: 0 0 40px rgba(200, 169, 110, 0.10);
+
+  /* Easing Functions — curvas de aceleração personalizadas
+     ease-out: começa rápido, desacelera no final (entrada de elementos)
+     ease-in:  começa devagar, acelera no final (saída de elementos)
+  */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:  cubic-bezier(0.64, 0, 0.78, 0);
+
+  --transition:      250ms var(--ease-out);
+  --transition-fast: 150ms var(--ease-out);
+  --transition-slow: 450ms var(--ease-out);
+
+  --navbar-h: 72px;
+  --max-w:    1160px;
+}
+
+
+/* ================================================================
+   03. RESET & NORMALIZAÇÃO
+   
+   CONCEITO — Box Model & Reset
+   Por padrão, browsers aplicam estilos inconsistentes (User Agent
+   Stylesheet). Um "CSS Reset" elimina essas inconsistências.
+   
+   box-sizing: border-box;
+   Muda o modelo de caixa padrão (content-box) para border-box.
+   Com border-box: width e height incluem padding e border.
+   Isso torna o dimensionamento muito mais previsível e intuitivo.
+   
+   Exemplo:
+     content-box: width:200px + padding:20px = total de 240px (!)
+     border-box:  width:200px + padding:20px = total de 200px (✓)
+   
+   O seletor *, *::before, *::after aplica isso a TODOS os elementos,
+   incluindo pseudo-elementos (::before e ::after).
+================================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* scroll-behavior: smooth — ativa scroll suave em links âncora (#section).
+     Isso é CSS puro, sem necessidade de JavaScript para links internos. */
+  scroll-behavior: smooth;
+  /* font-size define o valor base de 1rem para a escala tipográfica */
+  font-size: 16px;
+  /* Melhora a renderização de texto em monitores não-retina */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--f-body);
+  font-size: var(--t-base);
+  line-height: 1.6;           /* Espaçamento entre linhas: 1.6× o tamanho da fonte */
+  color: var(--c-text);
+  background-color: var(--c-bg);
+  /* overflow-x: hidden previne scroll horizontal causado por elementos
+     que excedem a largura da viewport */
+  overflow-x: hidden;
+}
+
+/* Remove sublinhado de links e herda cor do ancestral */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Remove estilo de listas — quando usamos ul/ol para navegação,
+   não queremos bullets ou indentação padrão */
+ul, ol {
+  list-style: none;
+}
+
+/* Imagens responsivas por padrão:
+   - display: block elimina o espaço extra gerado pelo display: inline padrão
+   - max-width: 100% impede que a imagem exceda seu container
+   - height: auto mantém a proporção original ao redimensionar */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inputs, buttons e selects herdam tipografia do body
+   (por padrão, esses elementos usam a fonte do sistema operacional) */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Remove comportamento padrão do botão no browser */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+
+/* ================================================================
+   04. TIPOGRAFIA BASE
+   
+   CONCEITO — Hierarquia Visual & Ritmo Tipográfico
+   A hierarquia tipográfica guia o olho do leitor pela página.
+   Usamos a fonte Display (serifada) para headings — ela carrega
+   o caráter artesanal da marca. DM Sans nos parágrafos assegura
+   legibilidade em qualquer tamanho.
+================================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  line-height: 1.15;         /* Headings têm line-height menor para compacidade */
+  letter-spacing: -0.01em;  /* Leve tracking negativo em displays grandes */
+  color: var(--c-text);
+}
+
+/* Estilo itálico para ênfase elegante em títulos */
+em {
+  font-style: italic;
+  color: var(--c-gold);
+}
+
+p {
+  max-width: 65ch;           /* ~65 caracteres por linha — ideal para leitura */
+  color: var(--c-text-muted);
+}
+
+/* Label de seção — texto pequeno, maiúsculo, com tracking (espaçamento de letras).
+   Technique clássica de design editorial para rotulação de seções. */
+.eyebrow {
+  font-family: var(--f-body);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+
+
+/* ================================================================
+   05. UTILITÁRIOS & LAYOUT
+   
+   CONCEITO — Container & Centralização
+   O .container é o padrão de layout mais usado na web.
+   Ele centraliza o conteúdo horizontalmente com uma largura máxima,
+   e usa padding lateral para que o conteúdo não cole nas bordas
+   em viewports estreitas (mobile).
+================================================================ */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--sp-4);
+  padding-right: var(--sp-4);
+}
+
+/* Textura de grão — sobreposição visual sutil que dá profundidade.
+   Pseudo-elemento fixo que cobre toda a tela com um padrão de ruído SVG.
+   pointer-events: none — nunca bloqueia cliques do usuário. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;                  /* equivale a top/right/bottom/left: 0 */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;             /* Sempre acima de tudo */
+}
+
+
+/* ================================================================
+   06. COMPONENTE: NAVBAR
+   
+   CONCEITO — Position: fixed & Stacking Context
+   position: fixed retira o elemento do fluxo normal do documento
+   e o fixa relativo à viewport (janela do browser). Ele não se move
+   ao scrollar. z-index: 100 garante que ele fique acima de outros
+   elementos empilhados.
+   
+   backdrop-filter: blur() — efeito de "vidro fosco" (glassmorphism).
+   Aplica desfoque nos pixels ATRÁS do elemento. Requer background
+   com alguma transparência para funcionar.
+================================================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--navbar-h);
+  z-index: 100;
+  /* Transição de fundo: transparente no topo, escuro ao scrollar.
+     A classe .scrolled é adicionada via JavaScript */
+  background: transparent;
+  transition: background var(--transition), backdrop-filter var(--transition),
+              box-shadow var(--transition);
+}
+
+.navbar.scrolled {
+  background: rgba(12, 10, 8, 0.90);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 var(--c-border-sub);
+}
+
+.navbar__inner {
+  height: 100%;
+  display: flex;                  /* Flexbox distribui logo + nav + CTA horizontalmente */
+  align-items: center;            /* Centraliza verticalmente */
+  justify-content: space-between; /* Espaço máximo entre grupos */
+  gap: var(--sp-4);
+}
+
+/* Logo — texto formatado para simular a identidade da marca */
+.navbar__logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+
+.navbar__logo-name {
+  font-family: var(--f-display);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-text);
+}
+
+.navbar__logo-sub {
+  font-size: var(--t-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+
+/* Links de navegação */
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.navbar__link {
+  padding: var(--sp-1) var(--sp-2);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--c-text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navbar__link:hover {
+  color: var(--c-text);
+  background: rgba(255,255,255,0.05);
+}
+
+.navbar__link.active {
+  color: var(--c-gold);
+}
+
+/* Grupo direito: CTA + menu mobile */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* Botão hambúrguer (mobile) */
+.navbar__menu-btn {
+  display: none;               /* Oculto em desktop, visível em mobile via media query */
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--sp-1);
+  border-radius: var(--radius-sm);
+}
+
+.navbar__menu-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--c-text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Animação do X quando o menu está aberto */
+.navbar__menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar__menu-btn.open span:nth-child(2) { opacity: 0; }
+.navbar__menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menu mobile: overlay deslizante */
+.navbar__mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--c-bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  z-index: 99;
+  animation: fadeIn 200ms var(--ease-out);
+}
+
+.navbar__mobile-menu.open {
+  display: flex;
+}
+
+.navbar__mobile-menu .navbar__link {
+  font-size: var(--t-xl);
+  font-family: var(--f-display);
+  color: var(--c-text);
+}
+
+.navbar__mobile-menu .navbar__link:hover {
+  color: var(--c-gold);
+  background: none;
+}
+
+
+/* ================================================================
+   07. COMPONENTE: HERO (Página Inicial)
+   
+   CONCEITO — Viewport Units & Background Layers
+   min-height: 100dvh usa a unidade dvh (dynamic viewport height),
+   que no mobile exclui a barra de endereços do browser ao calcular
+   a altura. Mais preciso que vh em dispositivos móveis.
+   
+   Background com múltiplas camadas (da frente para o fundo):
+   1. Gradiente escuro (sobreposição para legibilidade do texto)
+   2. Imagem fotográfica do pão artesanal
+   As camadas são separadas por vírgula no CSS background.
+================================================================ */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Camada 1: gradiente escuro de sobreposição (legibilidade do texto)
+     Camada 2: imagem de fundo do pão */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(12,10,8,0.45) 0%,
+      rgba(12,10,8,0.60) 60%,
+      rgba(12,10,8,0.95) 100%
+    ),
+    url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1600&q=80')
+    center / cover no-repeat;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: var(--sp-6) var(--sp-4);
+  max-width: 760px;
+  /* Animação de entrada ao carregar a página */
+  animation: heroFadeUp 1s var(--ease-out) both;
+}
+
+/* Logo circular — imita o emblema do site original */
+.hero__emblem {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-6);
+  gap: 2px;
+  box-shadow: var(--shadow-lg), var(--shadow-gold);
+}
+
+.hero__emblem-top,
+.hero__emblem-bot {
+  font-size: var(--t-xs);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.hero__emblem-name {
+  font-family: var(--f-display);
+  font-size: var(--t-md);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--c-text);
+}
+
+.hero__emblem-line {
+  width: 40px;
+  height: 1px;
+  background: var(--c-gold);
+  margin: 2px 0;
+}
+
+.hero__title {
+  font-size: clamp(var(--t-2xl), 6vw, var(--t-hero));
+  /* clamp(min, ideal, max) — fonte fluida que se adapta à viewport.
+     Elimina a necessidade de múltiplas media queries só para font-size. */
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: var(--sp-3);
+  line-height: 1.05;
+}
+
+.hero__sub {
+  font-size: var(--t-md);
+  color: var(--c-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-6);
+  max-width: 100%;
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--sp-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Indicador de scroll — incentiva o usuário a rolar a página */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--sp-6);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--t-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  animation: scrollBounce 2s infinite;
+}
+
+.hero__scroll::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--c-gold), transparent);
+}
+
+
+/* ================================================================
+   08. COMPONENTE: PAGE-HERO (Banner de sub-páginas)
+   
+   Banner menor usado em Produtos, Feedback, etc.
+   Usa padding em vez de min-height para controle mais simples.
+================================================================ */
+.page-hero {
+  padding: calc(var(--navbar-h) + var(--sp-12)) var(--sp-4) var(--sp-12);
+  text-align: center;
+  border-bottom: 1px solid var(--c-border-sub);
+  /* Gradiente radial sutil para profundidade */
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.06) 0%, transparent 70%);
+}
+
+.page-hero__eyebrow {
+  margin-bottom: var(--sp-2);
+}
+
+.page-hero__title {
+  font-size: clamp(var(--t-xl), 4vw, var(--t-3xl));
+  margin-bottom: var(--sp-2);
+}
+
+.page-hero__desc {
+  font-size: var(--t-md);
+  color: var(--c-text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+
+/* ================================================================
+   09. COMPONENTE: BOTÕES
+   
+   CONCEITO — Sistema de Botões & Estados Interativos
+   Um sistema de botões bem definido inclui variantes (primary,
+   secondary, ghost) e estados (:hover, :active, :focus, :disabled).
+   
+   :focus-visible — substitui :focus para mostrar o anel de foco
+   APENAS quando o usuário usa teclado, não ao clicar com o mouse.
+   Importante para acessibilidade (WCAG 2.4.7).
+================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: 0.8rem var(--sp-4);
+  font-family: var(--f-body);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--c-gold);
+  outline-offset: 3px;
+}
+
+/* Variante primária — preenchida com dourado */
+.btn--gold {
+  background: var(--c-gold);
+  color: var(--c-bg);
+  border-color: var(--c-gold);
+}
+
+.btn--gold:hover {
+  background: var(--c-gold-light);
+  border-color: var(--c-gold-light);
+  transform: translateY(-2px);   /* Micro-animação de levitar */
+  box-shadow: 0 6px 24px rgba(200, 169, 110, 0.3);
+}
+
+.btn--gold:active {
+  transform: translateY(0);
+  background: var(--c-gold-dark);
+}
+
+/* Variante fantasma — só borda */
+.btn--ghost {
+  background: transparent;
+  color: var(--c-text);
+  border-color: var(--c-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--c-text-muted);
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-2px);
+}
+
+/* Variante pequena */
+.btn--sm {
+  padding: 0.5rem var(--sp-2);
+  font-size: var(--t-xs);
+}
+
+/* Botão desabilitado */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Badge de destaque (Novo, Popular, etc.) */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge--gold {
+  background: var(--c-gold-faint);
+  color: var(--c-gold);
+  border: 1px solid rgba(200,169,110,0.2);
+}
+
+.badge--outline {
+  background: transparent;
+  color: var(--c-text-muted);
+  border: 1px solid var(--c-border);
+}
+
+
+/* ================================================================
+   10. COMPONENTE: CARDS DE PRODUTO
+   
+   CONCEITO — Card Pattern & overflow: hidden
+   Cards são o padrão de UI mais universal para exibir coleções
+   de conteúdo. A estrutura básica: imagem > corpo > ações.
+   
+   overflow: hidden no card garante que o zoom da imagem ao hover
+   não vaze para fora do container com border-radius.
+================================================================ */
+.product-grid {
+  display: grid;
+  /* auto-fill preenche automaticamente o espaço disponível.
+     minmax(260px, 1fr) = cada coluna tem no mínimo 260px,
+     e cresce igualmente (1fr) para preencher o resto.
+     Resultado: responsivo sem media queries! */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-3);
+}
+
+.product-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-sub);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition),
+              border-color var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--c-border);
+}
+
+/* Container da imagem — overflow: hidden para o efeito de zoom */
+.product-card__img-wrap {
+  aspect-ratio: 4 / 3;   /* Mantém proporção 4:3 independente da largura */
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* Cobre o container sem distorcer a imagem */
+  transition: transform 500ms var(--ease-out);
+}
+
+.product-card:hover .product-card__img {
+  transform: scale(1.06);  /* Zoom suave ao passar o mouse */
+}
+
+/* Fallback de cor quando a imagem não carrega */
+.product-card__img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.product-card__badge {
+  position: absolute;
+  top: var(--sp-2);
+  left: var(--sp-2);
+}
+
+.product-card__body {
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  flex: 1;   /* flex: 1 faz o corpo crescer, empurrando o footer para baixo */
+}
+
+.product-card__name {
+  font-family: var(--f-display);
+  font-size: var(--t-md);
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.product-card__desc {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  max-width: 100%;
+}
+
+.product-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  margin-top: auto;
+}
+
+.product-card__price {
+  font-family: var(--f-display);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.product-card__price span {
+  font-family: var(--f-body);
+  font-size: var(--t-sm);
+  font-weight: 400;
+  color: var(--c-text-muted);
+}
+
+
+/* ================================================================
+   11. COMPONENTE: FORMULÁRIOS
+   
+   CONCEITO — Form UX & Estados Visuais
+   Formulários bem projetados têm:
+   1. Rótulos sempre visíveis (nunca usar placeholder como rótulo)
+   2. Estados claros: default, focus, error, success
+   3. Área de clique generosa
+   4. Feedback imediato de validação
+   
+   :focus-within — aplica estilo ao container quando qualquer filho
+   está em foco. Permite iluminar o grupo inteiro (label + input).
+================================================================ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.85rem var(--sp-2);
+  background: var(--c-surface-2);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  color: var(--c-text);
+  font-size: var(--t-base);
+  transition: border-color var(--transition), box-shadow var(--transition),
+              background var(--transition);
+  appearance: none;          /* Remove estilo nativo do browser em selects */
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--c-text-faint);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--c-gold);
+  background: var(--c-surface);
+  /* box-shadow como "glow" dourado ao focar */
+  box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
+}
+
+/* Estado de erro */
+.form-input.error,
+.form-textarea.error {
+  border-color: var(--c-error);
+  box-shadow: 0 0 0 3px rgba(212,97,75,0.12);
+}
+
+.form-error-msg {
+  font-size: var(--t-xs);
+  color: var(--c-error);
+  margin-top: 2px;
+}
+
+.form-textarea {
+  resize: vertical;          /* Permite redimensionar apenas verticalmente */
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8967f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Checkbox customizado */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  cursor: pointer;
+}
+
+.form-check__input {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface-2);
+  flex-shrink: 0;            /* Não encolhe mesmo em flex containers */
+  margin-top: 2px;
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.form-check__input:checked {
+  background: var(--c-gold);
+  border-color: var(--c-gold);
+}
+
+.form-check__input:checked::after {
+  content: '';
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid var(--c-bg);
+  border-bottom: 2px solid var(--c-bg);
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+.form-check__label {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  line-height: 1.5;
+}
+
+/* Separador "ou" entre opções de login */
+.form-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--c-text-faint);
+  font-size: var(--t-sm);
+}
+
+.form-divider::before,
+.form-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-border-sub);
+}
+
+/* Linha de duas colunas em formulários */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+/* Formulário em coluna única */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+
+/* ================================================================
+   12. SEÇÃO: STORY STRIP (Faixa de apresentação — Home)
+================================================================ */
+.story {
+  padding: var(--sp-16) 0;
+}
+
+.story__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-16);
+  align-items: center;
+}
+
+.story__tag {
+  margin-bottom: var(--sp-3);
+}
+
+.story__title {
+  font-size: clamp(var(--t-xl), 3vw, var(--t-2xl));
+  margin-bottom: var(--sp-4);
+  line-height: 1.2;
+}
+
+.story__text {
+  font-size: var(--t-md);
+  line-height: 1.8;
+  margin-bottom: var(--sp-4);
+  max-width: 100%;
+}
+
+.story__img-wrap {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.story__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: linear-gradient(135deg, #3d2b1a 0%, #8b5e3c 40%, #c4884a 70%, #7a4f30 100%);
+}
+
+/* Sobreposição decorativa no canto */
+.story__img-deco {
+  position: absolute;
+  bottom: var(--sp-4);
+  right: var(--sp-4);
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-2) var(--sp-3);
+  backdrop-filter: blur(10px);
+}
+
+.story__img-deco-num {
+  font-family: var(--f-display);
+  font-size: var(--t-2xl);
+  color: var(--c-gold);
+  line-height: 1;
+}
+
+.story__img-deco-label {
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+/* Stats da história */
+.story__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--c-border-sub);
+  border-bottom: 1px solid var(--c-border-sub);
+  margin: var(--sp-4) 0;
+}
+
+.story__stat-num {
+  font-family: var(--f-display);
+  font-size: var(--t-xl);
+  color: var(--c-gold);
+  font-weight: 700;
+}
+
+.story__stat-label {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--c-text-faint);
+}
+
+
+/* ================================================================
+   13. SEÇÃO: PRODUTOS EM DESTAQUE (Home)
+================================================================ */
+.featured {
+  padding: var(--sp-16) 0;
+  border-top: 1px solid var(--c-border-sub);
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}
+
+.section-header__title {
+  font-size: clamp(var(--t-xl), 3vw, var(--t-2xl));
+}
+
+
+/* ================================================================
+   14. SEÇÃO: LOCALIZAÇÕES (Home)
+================================================================ */
+.locations {
+  padding: var(--sp-16) 0;
+  border-top: 1px solid var(--c-border-sub);
+}
+
+.locations__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--sp-8);
+}
+
+.location-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-sub);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.location-card:hover {
+  border-color: var(--c-border);
+  box-shadow: var(--shadow-gold);
+}
+
+.location-card__name {
+  font-family: var(--f-display);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  margin-bottom: var(--sp-1);
+}
+
+.location-card__addr {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  line-height: 1.8;
+}
+
+.location-card__tag {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  padding: 4px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-full);
+  font-size: var(--t-xs);
+  color: var(--c-text-muted);
+  letter-spacing: 0.08em;
+}
+
+.location-card__order-links {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+
+/* Faixa de redes sociais / CTA final */
+.cta-strip {
+  padding: var(--sp-16) 0;
+  text-align: center;
+  border-top: 1px solid var(--c-border-sub);
+  background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(200,169,110,0.05) 0%, transparent 70%);
+}
+
+.cta-strip__title {
+  font-size: clamp(var(--t-xl), 3vw, var(--t-2xl));
+  margin-bottom: var(--sp-2);
+}
+
+.cta-strip__sub {
+  font-size: var(--t-md);
+  margin-bottom: var(--sp-6);
+}
+
+.cta-strip__socials {
+  display: flex;
+  gap: var(--sp-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+/* ================================================================
+   15. SEÇÃO: BARRA DE FILTROS (Página de Produtos)
+================================================================ */
+.filter-bar {
+  position: sticky;        /* Cola no topo ao scrollar (abaixo da navbar) */
+  top: var(--navbar-h);
+  z-index: 10;
+  background: rgba(12,10,8,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-border-sub);
+  padding: var(--sp-3) 0;
+}
+
+.filter-bar__inner {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-bar__search {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+}
+
+.filter-bar__search-icon {
+  position: absolute;
+  left: var(--sp-2);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-text-faint);
+  pointer-events: none;
+}
+
+.filter-bar__search input {
+  padding-left: 2.5rem;
+}
+
+.filter-bar__cats {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+/* Botão de categoria: ativo ≠ inativo */
+.filter-btn {
+  padding: 0.4rem var(--sp-2);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-full);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--c-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  border-color: var(--c-text-muted);
+  color: var(--c-text);
+}
+
+.filter-btn.active {
+  background: var(--c-gold);
+  border-color: var(--c-gold);
+  color: var(--c-bg);
+  font-weight: 600;
+}
+
+/* Cabeçalho de categoria dentro da grade de produtos */
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-8) 0 var(--sp-4);
+  border-bottom: 1px solid var(--c-border-sub);
+  margin-bottom: var(--sp-4);
+}
+
+.category-header:first-child {
+  padding-top: var(--sp-8);
+}
+
+.category-header__title {
+  font-size: var(--t-xl);
+}
+
+.category-header__count {
+  font-size: var(--t-sm);
+  color: var(--c-text-faint);
+}
+
+
+/* ================================================================
+   16. LAYOUT SPLIT — Login & Cadastro
+   
+   CONCEITO — CSS Grid para Layout de Página Inteira
+   O layout split (metade escura / metade clara) é clássico em
+   formulários de autenticação. Usamos CSS Grid com fr para dividir
+   o espaço proporcionalmente.
+   
+   min-height: 100dvh na .split-page garante que o layout ocupa
+   toda a viewport, mesmo que o conteúdo do formulário seja pequeno.
+================================================================ */
+.split-page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Metade para cada painel */
+}
+
+/* Painel esquerdo: escuro, com branding */
+.split-left {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 80% at 30% 70%, rgba(120,75,30,0.35) 0%, transparent 60%),
+    var(--c-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-8);
+  border-right: 1px solid var(--c-border-sub);
+  text-align: center;
+}
+
+.split-left__emblem {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-6);
+  box-shadow: var(--shadow-gold);
+}
+
+.split-left__name {
+  font-family: var(--f-display);
+  font-size: var(--t-3xl);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 0.06em;
+  margin-bottom: var(--sp-2);
+}
+
+.split-left__sub {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  max-width: 100%;
+}
+
+.split-left__benefits {
+  margin-top: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  text-align: left;
+  width: 100%;
+  max-width: 260px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.benefit-item__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--c-gold-faint);
+  border: 1px solid rgba(200,169,110,0.15);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+.benefit-item__title {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.benefit-item__desc {
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  max-width: 100%;
+}
+
+/* Painel direito: claro (quase branco), com formulário */
+.split-right {
+  background: #f7f3ee;        /* Creme claro para contrastar com o lado escuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-8);
+}
+
+.split-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.split-form__eyebrow {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-gold-dark);
+  margin-bottom: var(--sp-2);
+}
+
+.split-form__title {
+  font-family: var(--f-display);
+  font-size: var(--t-2xl);
+  color: #1a1612;              /* Texto escuro no fundo claro */
+  margin-bottom: var(--sp-6);
+}
+
+/* Inputs com cores para fundo claro */
+.split-right .form-input,
+.split-right .form-select,
+.split-right .form-textarea {
+  background: #ffffff;
+  border-color: #ddd5c8;
+  color: #1a1612;
+}
+
+.split-right .form-input:focus,
+.split-right .form-select:focus {
+  border-color: var(--c-gold-dark);
+  box-shadow: 0 0 0 3px rgba(154,122,66,0.12);
+  background: #ffffff;
+}
+
+.split-right .form-input::placeholder {
+  color: #b5a898;
+}
+
+.split-right .form-label {
+  color: #7a6a58;
+}
+
+.split-right .form-check__label {
+  color: #7a6a58;
+}
+
+.split-right .form-check__input {
+  background: #ffffff;
+  border-color: #ddd5c8;
+}
+
+.split-right .form-divider {
+  color: #b5a898;
+}
+
+.split-right .form-divider::before,
+.split-right .form-divider::after {
+  background: #ddd5c8;
+}
+
+.split-form__footer {
+  text-align: center;
+  margin-top: var(--sp-4);
+  font-size: var(--t-sm);
+  color: #7a6a58;
+}
+
+.split-form__footer a {
+  color: var(--c-gold-dark);
+  font-weight: 600;
+}
+
+.split-form__footer a:hover {
+  text-decoration: underline;
+}
+
+/* Botão Google SSO */
+.btn--google {
+  background: #ffffff;
+  border: 1.5px solid #ddd5c8;
+  color: #1a1612;
+}
+
+.btn--google:hover {
+  background: #f5efe8;
+  border-color: #c0b0a0;
+  transform: translateY(-1px);
+}
+
+/* Link "Esqueceu a senha" alinhado à direita */
+.forgot-link {
+  text-align: right;
+  font-size: var(--t-xs);
+  color: var(--c-gold-dark);
+  margin-top: -var(--sp-1);
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* ================================================================
+   17. SEÇÃO: FEEDBACK — Stars & Reviews
+================================================================ */
+.feedback-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--sp-8);
+  padding: var(--sp-8) 0 var(--sp-16);
+  align-items: start;
+}
+
+.feedback-form-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-sub);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-6);
+}
+
+.feedback-form-card__title {
+  font-size: var(--t-xl);
+  margin-bottom: var(--sp-6);
+}
+
+/* Sistema de estrelas (CSS puro) */
+.stars-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-6);
+}
+
+.stars-group__label {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.stars-input {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+/* TÉCNICA: Seletor CSS reverso para estrelas interativas
+   O truque usa input[type=radio] ocultos + labels com ícones de estrela.
+   A mágica: as labels são exibidas em ordem reversa (flex-direction: row-reverse),
+   e o CSS usa o seletor ~ (sibling) para colorir todos os irmãos anteriores ao hover. */
+.stars-input input[type="radio"] {
+  display: none;
+}
+
+.stars-input label {
+  font-size: 1.8rem;
+  color: var(--c-border);
+  cursor: pointer;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.stars-input label:hover,
+.stars-input label:hover ~ label,
+.stars-input input:checked ~ label {
+  color: var(--c-gold);
+}
+
+.stars-input label:hover {
+  transform: scale(1.2);
+}
+
+/* Stars sub-categorias (menores) */
+.stars-sub {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--c-border-sub);
+  border-bottom: 1px solid var(--c-border-sub);
+  margin-bottom: var(--sp-4);
+}
+
+.stars-sub__item {
+  text-align: center;
+}
+
+.stars-sub__label {
+  font-size: var(--t-xs);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: var(--sp-1);
+}
+
+.stars-sub__stars {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.stars-sub__stars .stars-input label {
+  font-size: 1.2rem;
+}
+
+/* Sidebar de reviews */
+.reviews-sidebar {
+  position: sticky;
+  top: calc(var(--navbar-h) + var(--sp-4));
+}
+
+.reviews-sidebar__title {
+  font-size: var(--t-xl);
+  margin-bottom: var(--sp-4);
+}
+
+.review-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-sub);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  transition: border-color var(--transition);
+}
+
+.review-card:hover {
+  border-color: var(--c-border);
+}
+
+.review-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--sp-2);
+}
+
+.review-card__author {
+  font-weight: 600;
+  font-size: var(--t-sm);
+  color: var(--c-text);
+}
+
+.review-card__date {
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+.review-card__stars {
+  font-size: var(--t-sm);
+  margin-bottom: var(--sp-1);
+  color: var(--c-gold);
+}
+
+.review-card__text {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  max-width: 100%;
+}
+
+/* Medidor de nota geral */
+.rating-summary {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-sub);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  text-align: center;
+}
+
+.rating-summary__num {
+  font-family: var(--f-display);
+  font-size: var(--t-4xl);
+  font-weight: 700;
+  color: var(--c-text);
+  line-height: 1;
+}
+
+.rating-summary__stars {
+  font-size: var(--t-lg);
+  color: var(--c-gold);
+  margin: var(--sp-1) 0;
+}
+
+.rating-summary__total {
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Botões de loja (seletor toggle) */
+.shop-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-1);
+  background: var(--c-surface-2);
+  padding: 4px;
+  border-radius: var(--radius-md);
+}
+
+.shop-selector__btn {
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.shop-selector__btn.active {
+  background: var(--c-gold);
+  color: var(--c-bg);
+}
+
+/* Upload de foto */
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border: 1.5px dashed var(--c-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--c-text-muted);
+  font-size: var(--t-sm);
+  transition: all var(--transition);
+  background: transparent;
+}
+
+.file-upload:hover {
+  border-color: var(--c-gold);
+  color: var(--c-gold);
+  background: var(--c-gold-faint);
+}
+
+.file-upload input {
+  display: none;
+}
+
+
+/* ================================================================
+   18. FOOTER
+================================================================ */
+.footer {
+  background: var(--c-surface);
+  border-top: 1px solid var(--c-border-sub);
+  padding: var(--sp-12) 0 var(--sp-6);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--sp-8);
+  margin-bottom: var(--sp-8);
+}
+
+.footer__brand-name {
+  font-family: var(--f-display);
+  font-size: var(--t-lg);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-1);
+}
+
+.footer__brand-sub {
+  font-size: var(--t-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin-bottom: var(--sp-3);
+}
+
+.footer__brand-desc {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.footer__heading {
+  font-family: var(--f-body);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  margin-bottom: var(--sp-3);
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.footer__link {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: var(--c-gold);
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--c-border-sub);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+
+/* ================================================================
+   19. ANIMAÇÕES & KEYFRAMES
+   
+   CONCEITO — CSS Animations vs. JavaScript Animations
+   Para animações simples e performáticas, CSS é preferível a JS.
+   Browser otimiza propriedades composited (transform, opacity)
+   executando-as na GPU, separada da thread principal do JS.
+   Isso garante 60fps mesmo durante carga pesada de JS.
+   
+   @keyframes define os "quadros-chave" da animação — do estado
+   inicial ao final. O browser interpola automaticamente os
+   valores intermediários.
+================================================================ */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Classe utilitária: elemento aparece ao entrar na viewport
+   (ativada via JavaScript com Intersection Observer) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 100ms; }
+.reveal-delay-2 { transition-delay: 200ms; }
+.reveal-delay-3 { transition-delay: 300ms; }
+.reveal-delay-4 { transition-delay: 400ms; }
+
+
+/* ================================================================
+   20. MEDIA QUERIES — RESPONSIVIDADE
+   
+   CONCEITO — Mobile-First Design
+   Escrevemos os estilos BASE para mobile. Media queries então
+   EXPANDEM o layout para telas maiores com min-width.
+   
+   Por que min-width (não max-width)?
+   Overrides em CSS são mais limpos quando adicionamos complexidade
+   progressivamente (mobile → desktop) do que quando removemos.
+   
+   Breakpoints usados:
+   sm: 640px   — telefones grandes, portrait
+   md: 768px   — tablets
+   lg: 1024px  — laptops
+   xl: 1280px  — desktops
+================================================================ */
+
+/* --- sm: 640px --- */
+@media (max-width: 640px) {
+  :root {
+    --navbar-h: 60px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .story__inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+  }
+
+  .story__img-wrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  .locations__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: var(--sp-2);
+    text-align: center;
+  }
+
+  .feedback-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stars-sub {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+}
+
+/* --- md: 768px --- */
+@media (max-width: 768px) {
+  /* Navbar: oculta nav desktop, mostra hambúrguer */
+  .navbar__nav {
+    display: none;
+  }
+  .navbar__menu-btn {
+    display: flex;
+  }
+
+  /* Split page: empilha os painéis */
+  .split-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .split-left {
+    border-right: none;
+    border-bottom: 1px solid var(--c-border-sub);
+    padding: var(--sp-8) var(--sp-4);
+    min-height: 280px;
+  }
+
+  .split-left__benefits {
+    display: none;    /* Oculta benefícios no mobile para economizar espaço */
+  }
+
+  .split-right {
+    padding: var(--sp-6) var(--sp-4);
+  }
+
+  .feedback-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* --- lg: 1024px --- */
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+  }
+
+  .story__inner {
+    gap: var(--sp-8);
+  }
+}

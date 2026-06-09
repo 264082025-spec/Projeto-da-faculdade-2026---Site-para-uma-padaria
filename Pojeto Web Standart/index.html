@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Santiago Padaria Artesanal — Pão de fermentação natural com ingredientes orgânicos. São Paulo, SP." />
+  <title>Santiago Padaria Artesanal — Pão como antigamente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR — Navegação principal
+       position: fixed → sempre visível ao scrollar
+       .scrolled → adicionada via JS após 50px de scroll
+  ═══════════════════════════════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="./index.html" class="navbar__logo" aria-label="Santiago Padaria — início">
+        <span class="navbar__logo-name">Santiago</span>
+        <span class="navbar__logo-sub">Padaria Artesanal</span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="./index.html"    class="navbar__link">Início</a>
+        <a href="./produtos.html" class="navbar__link">Produtos</a>
+        <a href="#localizacoes"   class="navbar__link">Lojas</a>
+        <a href="./feedback.html" class="navbar__link">Feedback</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="./login.html"    class="btn btn--ghost btn--sm">Entrar</a>
+        <a href="./cadastro.html" class="btn btn--gold  btn--sm">Criar Conta</a>
+        <button class="navbar__menu-btn" id="menuBtn"
+                aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu mobile -->
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    <a href="./index.html"    class="navbar__link">Início</a>
+    <a href="./produtos.html" class="navbar__link">Produtos</a>
+    <a href="#localizacoes"   class="navbar__link">Lojas</a>
+    <a href="./feedback.html" class="navbar__link">Feedback</a>
+    <a href="./login.html"    class="btn btn--ghost">Entrar</a>
+    <a href="./cadastro.html" class="btn btn--gold">Criar Conta</a>
+  </div>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════
+         HERO — tela cheia com imagem de fundo
+         A imagem é aplicada via CSS background-image
+         em .hero no style.css (mais fácil controlar
+         sobreposição de gradiente + foto).
+    ═══════════════════════════════════════════ -->
+    <section class="hero" aria-label="Apresentação da Santiago Padaria">
+      <div class="hero__content">
+
+        <!-- Emblema circular — referência ao logo original -->
+        <div class="hero__emblem" aria-hidden="true">
+          <span class="hero__emblem-top">Fermentação</span>
+          <div class="hero__emblem-line"></div>
+          <span class="hero__emblem-name">Santiago</span>
+          <div class="hero__emblem-line"></div>
+          <span class="hero__emblem-bot">Natural</span>
+        </div>
+
+        <h1 class="hero__title">
+          Pão como<br><em>antigamente.</em>
+        </h1>
+
+        <p class="hero__sub">
+          Fermentação natural · Ingredientes orgânicos · São Paulo, SP
+        </p>
+
+        <div class="hero__actions">
+          <a href="./produtos.html" class="btn btn--gold">Ver Cardápio</a>
+          <a href="#localizacoes"   class="btn btn--ghost">Nossas Lojas</a>
+        </div>
+      </div>
+
+      <div class="hero__scroll" aria-hidden="true"><span>Descubra</span></div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════
+         NOSSA HISTÓRIA
+    ═══════════════════════════════════════════ -->
+    <section class="story" id="sobre">
+      <div class="container">
+        <div class="story__inner">
+
+          <!-- Texto -->
+          <div>
+            <p class="eyebrow story__tag reveal">Nossa História</p>
+            <h2 class="story__title reveal reveal-delay-1">
+              Padaria do século XXI.<br><em>Alma de sempre.</em>
+            </h2>
+            <p class="story__text reveal reveal-delay-2">
+              Somos uma padaria artesanal que acredita que o melhor pão
+              nasce da paciência. Respeitamos a ação do tempo, usamos
+              fermentação natural com até 72 horas de processo e
+              ingredientes orgânicos selecionados de produtores locais.
+            </p>
+            <p class="story__text reveal reveal-delay-2">
+              Nossa massa madre tem mais de dez anos de vida.
+              Ela é o coração de cada pão que sai da Santiago.
+            </p>
+
+            <div class="story__stats reveal reveal-delay-3">
+              <div>
+                <div class="story__stat-num">72h</div>
+                <div class="story__stat-label">Fermentação</div>
+              </div>
+              <div>
+                <div class="story__stat-num">100%</div>
+                <div class="story__stat-label">Orgânico</div>
+              </div>
+              <div>
+                <div class="story__stat-num">2</div>
+                <div class="story__stat-label">Lojas em SP</div>
+              </div>
+            </div>
+
+            <a href="./produtos.html" class="btn btn--ghost reveal reveal-delay-4">
+              Explorar Produtos →
+            </a>
+          </div>
+
+          <!-- Imagem -->
+          <div class="story__img-wrap reveal reveal-delay-1">
+            <img
+              class="story__img"
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80"
+              alt="Pão artesanal rústico com crosta dourada e grãos por cima"
+              loading="lazy"
+            />
+            <div class="story__img-deco">
+              <div class="story__img-deco-num">XXI</div>
+              <div class="story__img-deco-label">Séc.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════
+         PRODUTOS EM DESTAQUE
+    ═══════════════════════════════════════════ -->
+    <section class="featured" aria-labelledby="feat-title">
+      <div class="container">
+
+        <div class="section-header">
+          <div>
+            <p class="eyebrow reveal">Cardápio</p>
+            <h2 class="section-header__title reveal reveal-delay-1" id="feat-title">
+              Destaques da Semana
+            </h2>
+          </div>
+          <a href="./produtos.html" class="btn btn--ghost btn--sm reveal reveal-delay-2">
+            Ver todos →
+          </a>
+        </div>
+
+        <ul class="product-grid" role="list">
+
+          <li class="product-card reveal">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#2a1f14,#6b4c2e)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=600&q=80"
+                   alt="Pão Sourdough com crosta dourada e fendas características" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--gold">Popular</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Sourdough Clássico</h3>
+              <p class="product-card__desc">Massa madre tradicional, fermentação 72h. Crosta crocante, miolo alveolado.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;32 <span>/ 800g</span></div>
+              <a href="./produtos.html" class="btn btn--gold btn--sm">+ Pedir</a>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-1">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#1e1610,#503a24)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80"
+                   alt="Pão de centeio integral fatiado com grãos visíveis" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--gold">Novo</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Centeio Integral</h3>
+              <p class="product-card__desc">Grão orgânico, baixo índice glicêmico, rico em fibras e sabor intenso.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;28 <span>/ 700g</span></div>
+              <a href="./produtos.html" class="btn btn--gold btn--sm">+ Pedir</a>
+            </div>
+          </li>
+
+          <li class="product-card reveal reveal-delay-2">
+            <div class="product-card__img-wrap"
+                 style="background:linear-gradient(135deg,#3d2a1a,#c4884a)">
+              <img class="product-card__img"
+                   src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80"
+                   alt="Croissant de manteiga dourado e folhado em superfície de mármore" loading="lazy"/>
+              <div class="product-card__badge">
+                <span class="badge badge--outline">Doces</span>
+              </div>
+            </div>
+            <div class="product-card__body">
+              <h3 class="product-card__name">Croissant Manteiga</h3>
+              <p class="product-card__desc">Massa folhada clássica com manteiga francesa. Crocante por fora, macio por dentro.</p>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price">R$&nbsp;14 <span>/ un.</span></div>
+              <a href="./produtos.html" class="btn btn--gold btn--sm">+ Pedir</a>
+            </div>
+          </li>
+
+        </ul>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════
+         LOCALIZAÇÕES
+    ═══════════════════════════════════════════ -->
+    <section class="locations" id="localizacoes">
+      <div class="container">
+        <div style="text-align:center; margin-bottom:var(--sp-4)">
+          <p class="eyebrow reveal">Onde Nos Encontrar</p>
+          <h2 class="reveal reveal-delay-1">
+            Nossas Lojas em <em>São Paulo</em>
+          </h2>
+        </div>
+
+        <div class="locations__grid">
+
+          <article class="location-card reveal">
+            <p class="eyebrow" style="margin-bottom:var(--sp-2)">Loja 01</p>
+            <h3 class="location-card__name">Santiago @ Perdizes</h3>
+            <address class="location-card__addr">
+              Rua Tavares Bastos, 750<br>
+              Perdizes · São Paulo — SP<br><br>
+              Seg a Dom: 7h às 20h
+            </address>
+            <span class="location-card__tag">Fermentação Natural</span>
+            <div class="location-card__order-links">
+              <a href="https://wa.me/5511999999999" class="btn btn--ghost btn--sm"
+                 target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href="mailto:perdizes@santiago.com.br" class="btn btn--ghost btn--sm">E-mail</a>
+            </div>
+          </article>
+
+          <article class="location-card reveal reveal-delay-1">
+            <p class="eyebrow" style="margin-bottom:var(--sp-2)">Loja 02</p>
+            <h3 class="location-card__name">Santiago @ Iconyc Ibirapuera</h3>
+            <address class="location-card__addr">
+              Rua Loefgren, 2527<br>
+              Vila Clementino · São Paulo — SP<br><br>
+              Seg a Dom: 7h às 20h
+            </address>
+            <span class="location-card__tag">Fermentação Natural</span>
+            <div class="location-card__order-links">
+              <a href="https://wa.me/5511988888888" class="btn btn--ghost btn--sm"
+                 target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href="mailto:ibirapuera@santiago.com.br" class="btn btn--ghost btn--sm">E-mail</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- CTA de encerramento -->
+    <section class="cta-strip">
+      <div class="container">
+        <p class="eyebrow reveal">Acompanhe</p>
+        <h2 class="cta-strip__title reveal reveal-delay-1">
+          Siga nossa <em>jornada</em>
+        </h2>
+        <p class="cta-strip__sub reveal reveal-delay-2">
+          Novos produtos, bastidores e receitas toda semana.
+        </p>
+        <div class="cta-strip__socials reveal reveal-delay-3">
+          <a href="https://instagram.com" class="btn btn--ghost"
+             target="_blank" rel="noopener">Instagram →</a>
+          <a href="https://wa.me/5511999999999" class="btn btn--gold"
+             target="_blank" rel="noopener">WhatsApp</a>
+          <a href="./feedback.html" class="btn btn--ghost">Deixar Feedback</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+
+        <div>
+          <div class="footer__brand-name">Santiago</div>
+          <div class="footer__brand-sub">Padaria Artesanal</div>
+          <p class="footer__brand-desc">
+            Pão de fermentação natural, ingredientes orgânicos e
+            respeito pelo tempo. São Paulo, desde o século XXI.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer__heading">Navegação</h4>
+          <ul class="footer__links">
+            <li><a href="./index.html"    class="footer__link">Início</a></li>
+            <li><a href="./produtos.html" class="footer__link">Produtos</a></li>
+            <li><a href="./feedback.html" class="footer__link">Feedback</a></li>
+            <li><a href="./login.html"    class="footer__link">Minha Conta</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__heading">Lojas</h4>
+          <ul class="footer__links">
+            <li><a href="#localizacoes" class="footer__link">Perdizes</a></li>
+            <li><a href="#localizacoes" class="footer__link">Ibirapuera</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__heading">Contato</h4>
+          <ul class="footer__links">
+            <li><a href="https://wa.me/5511999999999" class="footer__link"
+                   target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="mailto:contato@santiago.com.br" class="footer__link">E-mail</a></li>
+            <li><a href="https://instagram.com" class="footer__link"
+                   target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2025 Santiago Padaria Artesanal. Todos os direitos reservados.</span>
+        <span>São Paulo, SP — Brasil</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
