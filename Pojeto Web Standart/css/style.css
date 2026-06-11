@@ -1,114 +1,29 @@
-/* ================================================================
-   SANTIAGO PADARIA ARTESANAL — style.css
-   Folha de estilo global: todas as páginas compartilham este arquivo.
 
-   ÍNDICE:
-   01. Import de Fontes
-   02. Design Tokens (CSS Custom Properties)
-   03. Reset & Normalização
-   04. Tipografia Base
-   05. Utilitários & Layout
-   06. Componente: Navbar
-   07. Componente: Hero (página inicial, tela cheia)
-   08. Componente: Page-Hero (banner menor em sub-páginas)
-   09. Componente: Botões
-   10. Componente: Cards de Produto
-   11. Componente: Formulários (inputs, labels, selects)
-   12. Seção: Story Strip (faixa da história)
-   13. Seção: Produtos em Destaque (home)
-   14. Seção: Localizações (home)
-   15. Seção: Filtros (página de produtos)
-   16. Seção: Grid de Produtos (página de produtos)
-   17. Layout Split (Login & Cadastro)
-   18. Seção: Feedback — Stars & Reviews
-   19. Footer
-   20. Animações & Keyframes
-   21. Media Queries (Mobile-first)
-================================================================ */
-
-
-/* ================================================================
-   01. IMPORT DE FONTES
-   
-   CONCEITO — Google Fonts & Performance
-   Fontes são carregadas via CDN do Google Fonts. O parâmetro
-   `display=swap` aplica CSS font-display: swap, que instrui o
-   browser a exibir uma fonte fallback enquanto a web font carrega,
-   prevenindo o FOIT (Flash of Invisible Text) — um problema clássico
-   de UX em sites que carregam fontes pesadas.
-   
-   FONTES ESCOLHIDAS:
-   • Playfair Display — Serif clássico com alta elegância tipográfica.
-     Alto contraste entre hastes finas e espessas (chamado de "stress").
-     Ideal para headings em contextos de luxo, gastronomia e editorial.
-   • DM Sans — Sans-serif humanista criada pela Colophon Foundry.
-     Excelente legibilidade em tamanhos pequenos. Neutralidade equilibrada
-     que não compete com o Playfair Display nos títulos.
-================================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 
 
-/* ================================================================
-   02. DESIGN TOKENS — CSS CUSTOM PROPERTIES
-   
-   CONCEITO — Tokens de Design & :root
-   CSS Custom Properties (variáveis CSS nativas, introduzidas no CSS3)
-   funcionam como "Design Tokens" — a fonte única de verdade para
-   todos os valores visuais do sistema.
-   
-   Por que :root?
-   O seletor :root corresponde ao elemento <html>, o ancestral de todo
-   o DOM. Variáveis definidas aqui ficam disponíveis para TODOS os
-   elementos via herança (cascade). É o escopo global do CSS.
-   
-   Vantagens sobre Sass/Less:
-   1. Nativas — sem compilação, sem dependências de build
-   2. Reativas — podem ser alteradas em runtime (ex.: dark/light mode)
-   3. Acessíveis via JS: getComputedStyle(el).getPropertyValue('--c-gold')
-   4. Participam da Cascade — podem ser sobrescritas em escopos menores
-================================================================ */
+
 :root {
-  /* --- PALETA CROMÁTICA ---
-     Teoria: cores análogas quentes (marrons, âmbares, ouros).
-     O background escuro quente (#0c0a08) evoca a escuridão de um
-     forno, enquanto o dourado (#c8a96e) remete à cor do pão assado.
-     
-     Contraste textual:
-     --c-text sobre --c-bg = razão ~14:1 (WCAG AAA exige 7:1) ✓
-  */
-  --c-bg:           #0c0a08;   /* Fundo principal — preto quentíssimo  */
-  --c-surface:      #171310;   /* Superfície de cards e modais          */
-  --c-surface-2:    #201c17;   /* Superfície secundária (hover states)  */
-  --c-border:       #3a3028;   /* Bordas visíveis                       */
-  --c-border-sub:   #221d18;   /* Bordas sutis / separadores            */
 
-  --c-gold:         #c8a96e;   /* Dourado — acento primário da marca    */
-  --c-gold-light:   #e0c898;   /* Dourado claro (hover)                 */
-  --c-gold-dark:    #9a7a42;   /* Dourado escuro (pressed / active)     */
-  --c-gold-faint:   rgba(200, 169, 110, 0.08); /* Fundo dourado sutil  */
+  --c-bg:           #0c0a08;   
+  --c-surface:      #171310;   
+  --c-surface-2:    #201c17;   
+  --c-border:       #3a3028;   
+  --c-border-sub:   #221d18;   
 
-  --c-text:         #f2ebe0;   /* Texto primário — creme quente         */
-  --c-text-muted:   #a8967f;   /* Texto secundário — creme médio        */
-  --c-text-faint:   #6b5c48;   /* Placeholder / rótulos discretos       */
+  --c-gold:         #c8a96e;  
+  --c-gold-light:   #e0c898;   
+  --c-gold-dark:    #9a7a42;   
+  --c-gold-faint:   rgba(200, 169, 110, 0.08);
+
+  --c-text:         #f2ebe0;   
+  --c-text-muted:   #a8967f;   
+  --c-text-faint:   #6b5c48;   
 
   --c-white:        #ffffff;
-  --c-error:        #d4614b;   /* Vermelho quente — mensagens de erro   */
-  --c-success:      #6aad7e;   /* Verde — mensagens de sucesso          */
+  --c-error:        #d4614b;  
+  --c-success:      #6aad7e;  
 
-  /* --- TIPOGRAFIA ---
-     ESCALA MODULAR — Major Third (razão 1.250)
-     Partindo de 1rem (16px), cada nível multiplica por 1.25.
-     Isso garante harmonia proporcional entre os tamanhos de texto.
-     
-     n = -2  → 0.640rem  ≈ 10px   (--t-xs)
-     n = -1  → 0.800rem  ≈ 13px   (--t-sm)
-     n =  0  → 1.000rem  = 16px   (--t-base, referência)
-     n =  1  → 1.250rem  = 20px   (--t-md)
-     n =  2  → 1.563rem  ≈ 25px   (--t-lg)
-     n =  3  → 1.953rem  ≈ 31px   (--t-xl)
-     n =  4  → 2.441rem  ≈ 39px   (--t-2xl)
-     n =  5  → 3.052rem  ≈ 49px   (--t-3xl)
-     n =  6  → 3.815rem  ≈ 61px   (--t-4xl)
   */
   --f-display: 'Playfair Display', Georgia, serif;
   --f-body:    'DM Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -124,14 +39,7 @@
   --t-4xl:  4rem;
   --t-hero: 5.5rem;
 
-  /* --- ESPAÇAMENTO — 8pt Grid System ---
-     Múltiplos de 8px criam alinhamento visual consistente entre
-     todos os elementos. Adotado pelo Material Design, iOS HIG
-     e pela maioria dos design systems modernos.
-     
-     Vantagem: qualquer combinação de espaçamentos resulta em
-     alinhamento de pixel perfeito.
-  */
+  
   --sp-1:  0.5rem;    /* 8px  */
   --sp-2:  1rem;      /* 16px */
   --sp-3:  1.5rem;    /* 24px */
@@ -141,7 +49,7 @@
   --sp-12: 6rem;      /* 96px */
   --sp-16: 8rem;      /* 128px */
 
-  /* --- BORDAS, SOMBRAS, TRANSIÇÕES --- */
+ 
   --radius-sm:   4px;
   --radius-md:   8px;
   --radius-lg:   14px;
@@ -153,10 +61,7 @@
   --shadow-lg:   0 16px 48px rgba(0,0,0,0.75);
   --shadow-gold: 0 0 40px rgba(200, 169, 110, 0.10);
 
-  /* Easing Functions — curvas de aceleração personalizadas
-     ease-out: começa rápido, desacelera no final (entrada de elementos)
-     ease-in:  começa devagar, acelera no final (saída de elementos)
-  */
+  
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in:  cubic-bezier(0.64, 0, 0.78, 0);
 
@@ -169,25 +74,6 @@
 }
 
 
-/* ================================================================
-   03. RESET & NORMALIZAÇÃO
-   
-   CONCEITO — Box Model & Reset
-   Por padrão, browsers aplicam estilos inconsistentes (User Agent
-   Stylesheet). Um "CSS Reset" elimina essas inconsistências.
-   
-   box-sizing: border-box;
-   Muda o modelo de caixa padrão (content-box) para border-box.
-   Com border-box: width e height incluem padding e border.
-   Isso torna o dimensionamento muito mais previsível e intuitivo.
-   
-   Exemplo:
-     content-box: width:200px + padding:20px = total de 240px (!)
-     border-box:  width:200px + padding:20px = total de 200px (✓)
-   
-   O seletor *, *::before, *::after aplica isso a TODOS os elementos,
-   incluindo pseudo-elementos (::before e ::after).
-================================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -195,12 +81,11 @@
 }
 
 html {
-  /* scroll-behavior: smooth — ativa scroll suave em links âncora (#section).
-     Isso é CSS puro, sem necessidade de JavaScript para links internos. */
+  
   scroll-behavior: smooth;
-  /* font-size define o valor base de 1rem para a escala tipográfica */
+  
   font-size: 16px;
-  /* Melhora a renderização de texto em monitores não-retina */
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -208,44 +93,38 @@ html {
 body {
   font-family: var(--f-body);
   font-size: var(--t-base);
-  line-height: 1.6;           /* Espaçamento entre linhas: 1.6× o tamanho da fonte */
+  line-height: 1.6;           
   color: var(--c-text);
   background-color: var(--c-bg);
-  /* overflow-x: hidden previne scroll horizontal causado por elementos
-     que excedem a largura da viewport */
+/
   overflow-x: hidden;
 }
 
-/* Remove sublinhado de links e herda cor do ancestral */
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Remove estilo de listas — quando usamos ul/ol para navegação,
-   não queremos bullets ou indentação padrão */
+
 ul, ol {
   list-style: none;
 }
 
-/* Imagens responsivas por padrão:
-   - display: block elimina o espaço extra gerado pelo display: inline padrão
-   - max-width: 100% impede que a imagem exceda seu container
-   - height: auto mantém a proporção original ao redimensionar */
+
 img {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-/* Inputs, buttons e selects herdam tipografia do body
-   (por padrão, esses elementos usam a fonte do sistema operacional) */
+
 input, textarea, select, button {
   font-family: inherit;
   font-size: inherit;
 }
 
-/* Remove comportamento padrão do botão no browser */
+
 button {
   background: none;
   border: none;
@@ -254,15 +133,7 @@ button {
 }
 
 
-/* ================================================================
-   04. TIPOGRAFIA BASE
-   
-   CONCEITO — Hierarquia Visual & Ritmo Tipográfico
-   A hierarquia tipográfica guia o olho do leitor pela página.
-   Usamos a fonte Display (serifada) para headings — ela carrega
-   o caráter artesanal da marca. DM Sans nos parágrafos assegura
-   legibilidade em qualquer tamanho.
-================================================================ */
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--f-display);
   font-weight: 700;
@@ -271,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--c-text);
 }
 
-/* Estilo itálico para ênfase elegante em títulos */
+
 em {
   font-style: italic;
   color: var(--c-gold);
@@ -282,8 +153,7 @@ p {
   color: var(--c-text-muted);
 }
 
-/* Label de seção — texto pequeno, maiúsculo, com tracking (espaçamento de letras).
-   Technique clássica de design editorial para rotulação de seções. */
+
 .eyebrow {
   font-family: var(--f-body);
   font-size: var(--t-xs);
@@ -749,16 +619,6 @@ body::before {
 }
 
 
-/* ================================================================
-   10. COMPONENTE: CARDS DE PRODUTO
-   
-   CONCEITO — Card Pattern & overflow: hidden
-   Cards são o padrão de UI mais universal para exibir coleções
-   de conteúdo. A estrutura básica: imagem > corpo > ações.
-   
-   overflow: hidden no card garante que o zoom da imagem ao hover
-   não vaze para fora do container com border-radius.
-================================================================ */
 .product-grid {
   display: grid;
   /* auto-fill preenche automaticamente o espaço disponível.
@@ -864,19 +724,6 @@ body::before {
 }
 
 
-/* ================================================================
-   11. COMPONENTE: FORMULÁRIOS
-   
-   CONCEITO — Form UX & Estados Visuais
-   Formulários bem projetados têm:
-   1. Rótulos sempre visíveis (nunca usar placeholder como rótulo)
-   2. Estados claros: default, focus, error, success
-   3. Área de clique generosa
-   4. Feedback imediato de validação
-   
-   :focus-within — aplica estilo ao container quando qualquer filho
-   está em foco. Permite iluminar o grupo inteiro (label + input).
-================================================================ */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1122,9 +969,7 @@ body::before {
 }
 
 
-/* ================================================================
-   13. SEÇÃO: PRODUTOS EM DESTAQUE (Home)
-================================================================ */
+
 .featured {
   padding: var(--sp-16) 0;
   border-top: 1px solid var(--c-border-sub);
@@ -1143,9 +988,6 @@ body::before {
 }
 
 
-/* ================================================================
-   14. SEÇÃO: LOCALIZAÇÕES (Home)
-================================================================ */
 .locations {
   padding: var(--sp-16) 0;
   border-top: 1px solid var(--c-border-sub);
@@ -1227,9 +1069,6 @@ body::before {
 }
 
 
-/* ================================================================
-   15. SEÇÃO: BARRA DE FILTROS (Página de Produtos)
-================================================================ */
 .filter-bar {
   position: sticky;        /* Cola no topo ao scrollar (abaixo da navbar) */
   top: var(--navbar-h);
@@ -1322,17 +1161,7 @@ body::before {
 }
 
 
-/* ================================================================
-   16. LAYOUT SPLIT — Login & Cadastro
-   
-   CONCEITO — CSS Grid para Layout de Página Inteira
-   O layout split (metade escura / metade clara) é clássico em
-   formulários de autenticação. Usamos CSS Grid com fr para dividir
-   o espaço proporcionalmente.
-   
-   min-height: 100dvh na .split-page garante que o layout ocupa
-   toda a viewport, mesmo que o conteúdo do formulário seja pequeno.
-================================================================ */
+
 .split-page {
   min-height: 100dvh;
   display: grid;
@@ -1583,10 +1412,7 @@ body::before {
   gap: var(--sp-1);
 }
 
-/* TÉCNICA: Seletor CSS reverso para estrelas interativas
-   O truque usa input[type=radio] ocultos + labels com ícones de estrela.
-   A mágica: as labels são exibidas em ordem reversa (flex-direction: row-reverse),
-   e o CSS usa o seletor ~ (sibling) para colorir todos os irmãos anteriores ao hover. */
+
 .stars-input input[type="radio"] {
   display: none;
 }
@@ -1782,9 +1608,7 @@ body::before {
 }
 
 
-/* ================================================================
-   18. FOOTER
-================================================================ */
+
 .footer {
   background: var(--c-surface);
   border-top: 1px solid var(--c-border-sub);
@@ -1857,19 +1681,6 @@ body::before {
 }
 
 
-/* ================================================================
-   19. ANIMAÇÕES & KEYFRAMES
-   
-   CONCEITO — CSS Animations vs. JavaScript Animations
-   Para animações simples e performáticas, CSS é preferível a JS.
-   Browser otimiza propriedades composited (transform, opacity)
-   executando-as na GPU, separada da thread principal do JS.
-   Isso garante 60fps mesmo durante carga pesada de JS.
-   
-   @keyframes define os "quadros-chave" da animação — do estado
-   inicial ao final. O browser interpola automaticamente os
-   valores intermediários.
-================================================================ */
 @keyframes heroFadeUp {
   from {
     opacity: 0;
@@ -1915,25 +1726,7 @@ body::before {
 .reveal-delay-4 { transition-delay: 400ms; }
 
 
-/* ================================================================
-   20. MEDIA QUERIES — RESPONSIVIDADE
-   
-   CONCEITO — Mobile-First Design
-   Escrevemos os estilos BASE para mobile. Media queries então
-   EXPANDEM o layout para telas maiores com min-width.
-   
-   Por que min-width (não max-width)?
-   Overrides em CSS são mais limpos quando adicionamos complexidade
-   progressivamente (mobile → desktop) do que quando removemos.
-   
-   Breakpoints usados:
-   sm: 640px   — telefones grandes, portrait
-   md: 768px   — tablets
-   lg: 1024px  — laptops
-   xl: 1280px  — desktops
-================================================================ */
 
-/* --- sm: 640px --- */
 @media (max-width: 640px) {
   :root {
     --navbar-h: 60px;
